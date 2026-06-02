@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[6]:
-
-
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
@@ -947,5 +941,52 @@ def server(input, output, session):
 
 app = App(app_ui, server)
 
+# ============================================================
+# EJECUCIÓN EN JUPYTER
+# ============================================================
+import nest_asyncio
+import uvicorn
+import webbrowser
+import socket
+from threading import Timer
+
+nest_asyncio.apply()
+
+PORT = 8090
+
+ip_local = socket.gethostbyname(socket.gethostname())
+print(f"\n✅ App disponible en tu red local:")
+print(f"   http://{ip_local}:{PORT}\n")
+
+Timer(3.0, lambda: webbrowser.open(f"http://127.0.0.1:{PORT}")).start()
+
+config     = uvicorn.Config(app, host="0.0.0.0", port=PORT, reload=False)
+server_uvi = uvicorn.Server(config)
+
+await server_uvi.serve()
 
 
+import subprocess
+import os
+
+# Convertir el notebook correcto
+subprocess.run(["jupyter", "nbconvert", "--to", "script", "Dashboard correcto .ipynb"])
+
+# Leer el archivo generado
+with open("Dashboard correcto .py", "r", encoding="utf-8") as f:
+    contenido = f.read()
+
+# Limpiar el bloque final con await
+corte = contenido.find("import nest_asyncio")
+if corte != -1:
+    contenido_limpio = contenido[:corte] + "\napp = App(app_ui, server)\n"
+    print("✅ Bloque final eliminado")
+else:
+    contenido_limpio = contenido
+    print("⚠️ No se encontró nest_asyncio")
+
+# Guardar como app.py
+with open("app.py", "w", encoding="utf-8") as f:
+    f.write(contenido_limpio)
+
+print("✅ app.py listo!")
