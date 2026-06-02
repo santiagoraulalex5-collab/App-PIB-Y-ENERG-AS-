@@ -950,37 +950,7 @@ app = App(app_ui, server)
 # ============================================================
 # EJECUCIÓN EN JUPYTER
 # ============================================================
-import nest_asyncio
-import uvicorn
-import webbrowser
-import socket
-from threading import Timer
 
-nest_asyncio.apply()
-
-PORT = 8090
-
-ip_local = socket.gethostbyname(socket.gethostname())
-print(f"\n✅ App disponible en tu red local:")
-print(f"   http://{ip_local}:{PORT}\n")
-
-Timer(3.0, lambda: webbrowser.open(f"http://127.0.0.1:{PORT}")).start()
-
-config     = uvicorn.Config(app, host="0.0.0.0", port=PORT, reload=False)
-server_uvi = uvicorn.Server(config)
-
-await server_uvi.serve()
-
-import subprocess
-import os
-
-# Convierte el notebook a .py
-subprocess.run(["jupyter", "nbconvert", "--to", "script", "Dashboard correcto.ipynb"])
-
-# Renombra el archivo generado a app.py
-os.rename("Dashboard correcto .py", "app.py")
-
-print("✅ Listo! app.py creado correctamente")
 
 app = App(app_ui, server)
 
