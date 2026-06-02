@@ -990,3 +990,6 @@ with open("app.py", "w", encoding="utf-8") as f:
     f.write(contenido_limpio)
 
 print("✅ app.py listo!")
+
+
+app = App(app_ui, server)
