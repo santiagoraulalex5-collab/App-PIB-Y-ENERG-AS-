@@ -1,0 +1,7 @@
+shiny
+shinywidgets
+pandas
+plotly
+openpyxl
+uvicorn
+nest_asyncio
