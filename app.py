@@ -947,16 +947,5 @@ def server(input, output, session):
 
 app = App(app_ui, server)
 
-# ============================================================
-# EJECUCIÓN EN JUPYTER
-# ============================================================
-
-
-app = App(app_ui, server)
-
-
-# In[ ]:
-
-
 
 
